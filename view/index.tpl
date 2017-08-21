@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Elle's MP3 Player</title>
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lobster">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="stylesheets/mp3-player.css">
+	</head>
+	<body>
+		<header class="header">
+			<div class="container">
+				<h1>Elle's MP3 Player</h1>
+				<p>Welcome to my MP3 player!<br />Hope you enjoy it :)</p>
+			</div>
+		</header>
+		<main>
+			<div class="container">
+				<div class="row">
+					<div class="col col-sm-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+						<div class="audio-player">
+							<div id="cover-img" class="audio-player-cover"></div>
+							<div class="audio-player-progress">
+								<div class="row">
+									<div class="col col-sm-3">
+										<span id="duration" class="progress-duration">0:00</span>
+									</div>
+									<div class="col col-sm-6">
+										<div id="progress-bar">
+											<div class="progress-bar-inner">
+												<span id="progress" class="bar-current"></span>
+											</div>
+										</div>
+									</div>
+									<div class="col col-sm-3">
+										<span id="timeleft" class="progress-audio-length">00:00:00</span>
+									</div>
+								</div>
+							</div>
+							<div class="audio-player-body">
+								<div class="body-header body-section">
+									<h2 id="title"></h2>
+									<p id="album"></p>
+									<p id="artist"></p>
+								</div>
+								<div class="body-btns body-section">
+									<a id="prev-btn" class="btn prev" href="#">
+										<img src="images/icons/btn-previous.png" alt="Previous Butoon">
+									</a>
+									<a id="play-btn" class="btn play" href="#">
+										<img src="images/icons/btn-play.png" alt="Play Button">
+									</a>
+									<a id="pause-btn" class="btn pause" href="#">
+										<img src="images/icons/btn-pause.png" alt="Pause Button">
+									</a>
+									<a id="stop-btn" class="btn stop" href="#">
+										<img src="images/icons/btn-stop.png" alt="Stop Button">
+									</a>
+									<a id="next-btn" class="btn next" href="#">
+										<img src="images/icons/btn-next.png" alt="Next Button">
+									</a>
+								</div>
+								<form class="body-volume body-section">
+									<img src="images/icons/btn-volume.png" alt="">
+									<input id="volume-slider" type="range" min="0" max="10" value="4">
+								</form>
+								<ul id="playlist" class="body-playlist body-section">
+									<?= $list ?>
+								</ul>
+								<br>
+								<p>Add your songs</p>
+								<form id="form" enctype="multipart/form-data" action='save.php' method='post'>
+									<input type="file" name="file[]" multiple>
+									<br><br>
+									<input type="submit" value="Upload">
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+		<footer class="footer">
+			<div class="container">
+				<h3>Thank you for playing!</h3>
+				<p>Say hi at <a href="mailto:ellekasai@gmail.com">elle.kasai@gmail.com</a> or follow me on:</p>
+				<ul class="footer-social-links">
+					<li>
+						<a href="//github.com/ellekasai/" target="_blank">
+							<i class="fa fa-github fa-2x" title="github"></i>
+						</a>
+					</li>
+					<li>
+						<a href="//www.linkedin.com/in/ellekasai" target="_blank">
+							<i class="fa fa-linkedin-square fa-2x" title="linkedin"></i>
+						</a>
+					</li>
+					<li>
+						<a href="//medium.com/@ellekasai" target="_blank">
+							<i class="fa fa-medium fa-2x" title="medium"></i>
+						</a>
+					</li>
+					<li>
+						<a href="//www.facebook.com/elle.kasai" target="_blank">
+							<i class="fa fa-facebook-official fa-2x" title="facebook"></i>
+						</a>
+					</li>
+					<li>
+						<a href="//www.youtube.com/channel/UCedPJBdXlrsJMAvV1TEwMFQ" target="_blank">
+							<i class="fa fa-youtube-square fa-2x" title="YouTube"></i>
+						</a>
+					</li>
+				</ul>
+			</div>
+		</footer>
+		<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+		<script src="javascripts/mp3-player.js"></script>
+	</body>
+</html>

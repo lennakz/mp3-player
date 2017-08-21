@@ -1,6 +1,6 @@
 <?php
 
-$base_url = $_SERVER['DOCUMENT_ROOT'];
+$base_url = $_SERVER['DOCUMENT_ROOT'] . '/mp3-player';
 require $base_url . '/php/functions.php';
 
 $save_dir = $base_url . '/music/';
