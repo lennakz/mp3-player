@@ -1,8 +1,12 @@
 {
-	"require": {
-		"php": ">=5.3.0",
-		"james-heinrich/getid3": "1.9.14",
-		"smarty/smarty": "3.1.*"
-	}
-	
+    "require": {
+        "silex/silex": "~2.0",
+        "twig/twig": "^2.4",
+        "symfony/asset": "^3.3",
+        "symfony/twig-bridge": "^3.3",
+        "james-heinrich/getid3": "^1.9",
+        "symfony/form": "^3.3",
+        "symfony/translation": "^3.3",
+        "symfony/config": "^3.3"
+    }
 }

@@ -1,0 +1,78 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+	<div class="container">
+		<div class="row">
+			<div class="col col-sm-12 col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+				<div class="audio-player">
+					<div id="cover-img" class="audio-player-cover"></div>
+					<div class="audio-player-progress">
+						<div class="row">
+							<div class="col col-sm-3">
+								<span id="duration" class="progress-duration">0:00</span>
+							</div>
+							<div class="col col-sm-6">
+								<div id="progress-bar">
+									<div class="progress-bar-inner">
+										<span id="progress" class="bar-current"></span>
+									</div>
+								</div>
+							</div>
+							<div class="col col-sm-3">
+								<span id="timeleft" class="progress-audio-length">00:00:00</span>
+							</div>
+						</div>
+					</div>
+					<div class="audio-player-body">
+						<div class="body-header body-section">
+							<h2 id="title"></h2>
+							<p id="album"></p>
+							<p id="artist"></p>
+						</div>
+						<div class="body-btns body-section">
+							<a id="prev-btn" class="btn prev" href="#">
+								<img src="icons/btn-previous.png" alt="Previous Butoon">
+							</a>
+							<a id="play-btn" class="btn play" href="#">
+								<img src="icons/btn-play.png" alt="Play Button">
+							</a>
+							<a id="pause-btn" class="btn pause" href="#">
+								<img src="icons/btn-pause.png" alt="Pause Button">
+							</a>
+							<a id="stop-btn" class="btn stop" href="#">
+								<img src="icons/btn-stop.png" alt="Stop Button">
+							</a>
+							<a id="next-btn" class="btn next" href="#">
+								<img src="icons/btn-next.png" alt="Next Button">
+							</a>
+						</div>
+						<form class="body-volume body-section">
+							<img src="icons/btn-volume.png" alt="">
+							<input id="volume-slider" type="range" min="0" max="10" value="4">
+						</form>
+						<ul id="playlist" class="body-playlist body-section">
+							{% for k, audio in audios %}
+							<li {% if k == 0 %}class="active"{% endif %}>
+								<span 
+									data-song="{{audio.getAudioUrl()}}" 
+									data-cover="{{audio.getCoverUrl()}}"
+									data-album="{{audio.getAlbum()}}"
+									data-fullpath="{{audio.getAudioUrl()}}"
+									data-artist="{{audio.getArtist()}}">{{audio.getTitle()}}</span>
+								<button id="delete">X</button>
+							</li>
+							{% endfor %}
+						</ul>
+						<br>
+						<p>Add your songs</p>
+						<form id="form" enctype="multipart/form-data" action='save.php' method='post'>
+							<input type="file" name="file[]" multiple>
+							<br><br>
+							<input type="submit" value="Upload">
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}

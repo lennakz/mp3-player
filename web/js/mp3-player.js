@@ -15,7 +15,7 @@ $(function () {
 		$('#album').text(album);
 		$('#artist').text(artist);
 
-		$('#cover-img').attr('style', 'background-image: url(images/covers/' + cover + ')');
+		$('#cover-img').attr('style', 'background-image: url(' + cover + ')');
 
 		$('#playlist li').removeClass('active');
 		element.parent().addClass('active');

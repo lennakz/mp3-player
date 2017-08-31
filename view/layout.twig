@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Elle's MP3 Player</title>
+		<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lobster">
+		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="{{ asset('css/mp3-player.css') }}">
+	</head>
+	
+	<body>
+		
+		{% include 'partials/header.twig' %}
+		
+		<main>
+			{% block content %}{% endblock %}
+		</main>
+		
+		{% include 'partials/footer.twig' %}		
+		
+		<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
+		<script src="{{ asset('js/mp3-player.js') }}"></script>
+	</body>
+	
+</html>	
+	
