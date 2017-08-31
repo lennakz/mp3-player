@@ -18,72 +18,109 @@ class Audio
 	
 	const AUDIODATA = __DIR__ . '/../../data/data.txt';
 	
-	public function __construct($filename = null)
-	{
-		if (!empty($filename))
-			$this->filename = trim($filename);
-		else
-			$this->filename = '';
-	}
+//	public function __construct($filename = null)
+//	{
+//		if (!empty($filename))
+//			$this->filename = trim($filename);
+//		else
+//			$this->filename = '';
+//	}
 	
 	public static function load()
 	{
 		$audios = [];
-		
 		$lines = file(self::AUDIODATA);
 
-		foreach ($lines as $filename)
+		foreach ($lines as $line)
 		{
-						
-			$audio = new Audio($filename);
+			$data = json_decode($line);
 			
-			$audios[] = $audio;
-		}
-
+			if (!empty(glob(dirname(__DIR__, 2).'/data/music/'.$data->filename.'.*')))
+			{
+				$audio = new Audio();
+				$audio->setAttributes($data);
+				
+				$audios[] = $audio;
+			}
+		}	
+		
 		return $audios;
 	}
 	
-	public function saveName()
+	protected function setAttributes($data)
 	{
-		$line = $this->filename;
-		$fp = fopen(self::AUDIODATA, 'a+');
-		fwrite($fp, $line);
-		fclose($fp);
+		foreach ($this as $attribute => $value)
+		{
+			if (isset($data->$attribute))
+				$this->$attribute = $data->$attribute;
+		}
 	}
 	
-	public function getInfo()
+	public function save()
+	{
+		$audio_info= self::getInfo($this->upload->getPathname());
+		$filename = str_replace('.'.$this->upload->getClientOriginalExtension(), '', $this->upload->getClientOriginalName());
+		$data = [
+			'filename' => $filename,
+			'title' => (!isset($audio_info['title']) or empty($audio_info['title'])) ? $this->beautifyTitle($filename) : $audio_info['title'],
+			'artist' => (!isset($audio_info['artist']) or empty($audio_info['artist'])) ? 'Unknown Artist' : $audio_info['artist'],
+			'album' => (!isset($audio_info['album']) or empty($audio_info['album'])) ? 'Unknown Album' : $audio_info['album'],
+			'year' => (!isset($audio_info['year']) or empty($audio_info['year'])) ? 'Unknown Year' : $audio_info['year'],
+			'genre' => (!isset($audio_info['genre']) or empty($audio_info['genre'])) ? 'Other' : $audio_info['genre'],
+		];
+		
+		$fp = fopen(self::AUDIODATA, 'a+');
+		fwrite($fp, json_encode($data).PHP_EOL);
+		fclose($fp);
+		
+		$file_dir = dirname(__DIR__, 2) . '/data/music/';
+		
+		$this->upload->move($file_dir, $this->upload->getClientOriginalName());
+	}
+	
+	protected function beautifyTitle($title)
+	{
+		return '';
+	}
+	
+	public static function getInfo($path)
 	{
 		$getID3 = new getID3;
-		$file_info_total = $getID3->analyze($this->getFullPath());
+		$file_info_total = $getID3->analyze($path);
 		getid3_lib::CopyTagsToComments($file_info_total);
 		$file_info = empty($file_info_total['id3v1']) ? [] : $file_info_total['id3v1'];
 		
 		return $file_info;
 	}
 	
+	public function getFilename()
+	{
+		return $this->filename;
+	}
+	
 	public function getTitle()
 	{
-		return !isset($this->getInfo()['title']) ? 'Unknown Title' : $this->getInfo()['title'];
+		return $this->title;
 	}
 	
 	public function getArtist()
 	{
-		return !isset($this->getInfo()['artist']) ? 'Unknown Artist' : $this->getInfo()['artist'];
+		return $this->artist;
 	}
 	
 	public function getAlbum()
 	{
-		return !isset($this->getInfo()['album']) ? 'Unknown Album' : $this->getInfo()['album'];
+		return $this->album;
 	}
 	
 	public function getYear()
 	{
-		return !isset($this->getInfo()['year']) ? 'Unknown Year' : $this->getInfo()['year'];
+		return $this->year;
 	}
 	
 	public function getGenre()
 	{
-		return !isset($this->getInfo()['genre']) ? 'Other' : $this->getInfo()['genre'];
+		return $this->genre;
 	}
 	
 	public function getFullPath()
@@ -100,16 +137,5 @@ class Audio
 	{
 		return '/mp3-player/data/images/covers/' . $this->filename . '.jpg';
 	}
-	
-	public function getFilename()
-	{
-		return $this->filename;
-	}
-	
-	public function setFilename($filename)
-	{
-		$this->filename = $filename;
-		
-		return $this;
-	}
+
 }

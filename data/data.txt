@@ -1,5 +1,6 @@
-my-beach
-prelude-in-c-minor
-summer-sky
-three-little-birds
-my-beachmy-beachmy-beachmy-beachmy-beachmy-beachmy-beachmy-beachmy-beachprelude-in-c-minor
+{"filename":"prelude-in-c-minor","title":"Chopin: Prelude in C minor","artist":"A-M Classical","album":"Unknown Album","year":"2001","genre":"Classical"}
+{"filename":"summer-sky","title":"Unknown Title","artist":"Unknown Artist","album":"Unknown Album","year":"Unknown Year","genre":"Other"}
+{"filename":"three-little-birds","title":"Three little birds","artist":"Bob Marley","album":"Legend: The best of Bob Marley","year":"1984","genre":"Reggae"}
+{"filename":"my-beach","title":"DOVA_0301 My Beach","artist":"MFP","album":"DOVA 2017","year":"2017","genre":"Other"}
+{"filename":"Enej-Zbudujemy-Dom-Official-video","title":"Unknown Title","artist":"Unknown Artist","album":"Unknown Album","year":"Unknown Year","genre":"Other"}
+{"filename":"enej-radio-hello","title":"Unknown Title","artist":"Unknown Artist","album":"Unknown Album","year":"Unknown Year","genre":"Other"}
