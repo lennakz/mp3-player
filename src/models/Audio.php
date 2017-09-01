@@ -9,22 +9,16 @@ class Audio
 {
 	public $upload;
 	
-	protected $filename;
+	protected $name;
 	protected $title;
 	protected $artist;
 	protected $album;
 	protected $year;
 	protected $genre;
-	
+	protected $cover_url;
+
+
 	const AUDIODATA = __DIR__ . '/../../data/data.txt';
-	
-//	public function __construct($filename = null)
-//	{
-//		if (!empty($filename))
-//			$this->filename = trim($filename);
-//		else
-//			$this->filename = '';
-//	}
 	
 	public static function load()
 	{
@@ -35,11 +29,14 @@ class Audio
 		{
 			$data = json_decode($line);
 			
-			if (!empty(glob(dirname(__DIR__, 2).'/data/music/'.$data->filename.'.*')))
+			if (!empty(glob(BASE_DIR . '/data/music/'.$data->name.'.*')))
 			{
 				$audio = new Audio();
 				$audio->setAttributes($data);
 				
+				if (glob(BASE_DIR . '/data/images/covers/' . $data->name . '{.jpg, .png}', GLOB_BRACE))
+					$audio->setCoverUrl($data->name);
+								
 				$audios[] = $audio;
 			}
 		}	
@@ -58,20 +55,26 @@ class Audio
 	
 	public function save()
 	{
-		$audio_info= self::getInfo($this->upload->getPathname());
-		$filename = str_replace('.'.$this->upload->getClientOriginalExtension(), '', $this->upload->getClientOriginalName());
+		$audio_info = self::getInfo($this->upload->getPathname());
+		$name = str_replace('.'.$this->upload->getClientOriginalExtension(), '', $this->upload->getClientOriginalName());
+
 		$data = [
-			'filename' => $filename,
-			'title' => (!isset($audio_info['title']) or empty($audio_info['title'])) ? $this->beautifyTitle($filename) : $audio_info['title'],
-			'artist' => (!isset($audio_info['artist']) or empty($audio_info['artist'])) ? 'Unknown Artist' : $audio_info['artist'],
-			'album' => (!isset($audio_info['album']) or empty($audio_info['album'])) ? 'Unknown Album' : $audio_info['album'],
-			'year' => (!isset($audio_info['year']) or empty($audio_info['year'])) ? 'Unknown Year' : $audio_info['year'],
-			'genre' => (!isset($audio_info['genre']) or empty($audio_info['genre'])) ? 'Other' : $audio_info['genre'],
+			'name' => $name,
+		];
+
+		$defaults = [
+			'title' => $this->beautifyTitle($name),
+			'artist' => 'Unknown Artist',
+			'album' => 'Unknown Album',
+			'year' => 'Unknown Year',
+			'genre' => 'Other',
+			'cover_url' =>  BASE_URL . '/data/images/covers/default.png',
 		];
 		
-		$fp = fopen(self::AUDIODATA, 'a+');
-		fwrite($fp, json_encode($data).PHP_EOL);
-		fclose($fp);
+		foreach ($defaults as $k => $default)
+			$data[$k] = !empty($audio_info[$k]) ? $audio_info[$k] : $default;
+				
+		file_put_contents(self::AUDIODATA, json_encode($data) . PHP_EOL, FILE_APPEND);
 		
 		$file_dir = dirname(__DIR__, 2) . '/data/music/';
 		
@@ -80,7 +83,10 @@ class Audio
 	
 	protected function beautifyTitle($title)
 	{
-		return '';
+		$beatiful_title = preg_replace(['/\-|\_|\./', '/\S\(/', '/\)\S/'], [' ', ' (', ') '], $title);
+		$beatiful_title = ucwords($beatiful_title);
+		
+		return $beatiful_title;
 	}
 	
 	public static function getInfo($path)
@@ -93,9 +99,9 @@ class Audio
 		return $file_info;
 	}
 	
-	public function getFilename()
+	public function getName()
 	{
-		return $this->filename;
+		return $this->name;
 	}
 	
 	public function getTitle()
@@ -123,19 +129,24 @@ class Audio
 		return $this->genre;
 	}
 	
+	public function getCoverUrl()
+	{
+		return $this->cover_url;
+	}
+	
+	public function setCoverUrl($name)
+	{
+		$this->cover_url = BASE_URL . '/data/images/covers/' . $name . '.jpg';
+	}
+	
 	public function getFullPath()
 	{
-		return dirname(__DIR__, 2) . '/data/music/' . $this->filename . '.mp3';
+		return BASE_DIR . '/data/music/' . $this->name . '.mp3';
 	}
 
 	public function getAudioUrl()
 	{
-		return '/mp3-player/data/music/' . $this->filename . '.mp3';
+		return BASE_URL . '/data/music/' . $this->name . '.mp3';
 	}
-	
-	public function getCoverUrl()
-	{
-		return '/mp3-player/data/images/covers/' . $this->filename . '.jpg';
-	}
-
+		
 }

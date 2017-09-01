@@ -2,6 +2,9 @@
 
 ini_set('display_errors', 1);
 
+define('BASE_DIR', realpath(__DIR__ . '/..'));
+define('BASE_URL', '/mp3-player');
+
 use Silex\Application;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\AssetServiceProvider;

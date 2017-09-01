@@ -4,26 +4,27 @@ use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 require 'models/Audio.php';
 
 $app->match('/', function (Request $request) use ($app)
 {
-	$p['audios'] = Audio::load();
+	$audios = Audio::load();
 	
-	$p['form'] = $app['form.factory']->createBuilder(FormType::class)
+	$form = $app['form.factory']->createBuilder(FormType::class, null, ['attr' => ['id' => 'form']])
 		->add('upload', FileType::class, ['label' => 'Upload your music', 'multiple' => true])
 		->add('submit', SubmitType::class, [
 			'label' => 'Upload',
 		])
 		->getForm();
 
-	$p['form']->handleRequest($request);
+	$form->handleRequest($request);
 	
-	if ($p['form']->isSubmitted() and $p['form']->isValid())
+	if ($form->isSubmitted() and $form->isValid())
 	{
-		foreach ($p['form']->getData()['upload'] as $a)
+		foreach ($form->getData()['upload'] as $a)
 		{
 			$audio = new Audio();
 			$audio->upload = $a;
@@ -31,8 +32,15 @@ $app->match('/', function (Request $request) use ($app)
 		}
 		return $app->redirect('/mp3-player/web/index.php');
 	}
-
-	$p['form'] = $p['form']->createView();
 	
-	return $app['twig']->render('index.twig', $p);
+	return $app['twig']->render('index.twig', [
+		'form' => $form->createView(),
+		'audios' => $audios,
+	]);
+});
+
+$app->match('/ajax-upload', function()
+{
+	d($_FILES);
+	return '';
 });

@@ -1,6 +1,7 @@
-{"filename":"prelude-in-c-minor","title":"Chopin: Prelude in C minor","artist":"A-M Classical","album":"Unknown Album","year":"2001","genre":"Classical"}
-{"filename":"summer-sky","title":"Unknown Title","artist":"Unknown Artist","album":"Unknown Album","year":"Unknown Year","genre":"Other"}
-{"filename":"three-little-birds","title":"Three little birds","artist":"Bob Marley","album":"Legend: The best of Bob Marley","year":"1984","genre":"Reggae"}
-{"filename":"my-beach","title":"DOVA_0301 My Beach","artist":"MFP","album":"DOVA 2017","year":"2017","genre":"Other"}
-{"filename":"Enej-Zbudujemy-Dom-Official-video","title":"Unknown Title","artist":"Unknown Artist","album":"Unknown Album","year":"Unknown Year","genre":"Other"}
-{"filename":"enej-radio-hello","title":"Unknown Title","artist":"Unknown Artist","album":"Unknown Album","year":"Unknown Year","genre":"Other"}
+{"name":"enej-radio-hello","title":"Enej Radio Hello","artist":"Unknown Artist","album":"Unknown Album","year":"Unknown Year","genre":"Other","cover_url":"\/mp3-player\/data\/images\/covers\/default.png"}
+{"name":"summer-sky","title":"Summer Sky","artist":"Unknown Artist","album":"Unknown Album","year":"Unknown Year","genre":"Other","cover_url":"\/mp3-player\/data\/images\/covers\/default.png"}
+{"name":"three-little-birds","title":"Three little birds","artist":"Bob Marley","album":"Legend: The best of Bob Marley","year":"1984","genre":"Reggae","cover_url":"\/mp3-player\/data\/images\/covers\/default.png"}
+{"name":"my-beach","title":"DOVA_0301 My Beach","artist":"MFP","album":"DOVA 2017","year":"2017","genre":"Other","cover_url":"\/mp3-player\/data\/images\/covers\/default.png"}
+{"name":"Enej-Zbudujemy-Dom-Official-video","title":"Enej Zbudujemy Dom Official Video","artist":"Unknown Artist","album":"Unknown Album","year":"Unknown Year","genre":"Other","cover_url":"\/mp3-player\/data\/images\/covers\/default.png"}
+{"name":"enej-radio-hello","title":"Enej Radio Hello","artist":"Unknown Artist","album":"Unknown Album","year":"Unknown Year","genre":"Other","cover_url":"\/mp3-player\/data\/images\/covers\/default.png"}
+{"name":"enej-radio-hello","title":"Enej Radio Hello","artist":"Unknown Artist","album":"Unknown Album","year":"Unknown Year","genre":"Other","cover_url":"\/mp3-player\/data\/images\/covers\/default.png"}

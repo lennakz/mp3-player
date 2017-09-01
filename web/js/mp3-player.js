@@ -175,15 +175,17 @@ $(function () {
 		if (window.FormData) {
 			formdata = new FormData($form[0]);
 		}
+		//console.log($form);
 		$.ajax({
-			url: "php/save.php",
-			type: "POST",
+			url: "ajax-upload",
+			type: "post",
 			data: formdata ? formdata : $form.serialize(),
 			contentType: false,
 			cache: false,
 			processData: false
 		}).done(function (response) {
-			$('#playlist').html(response);
+			console.log(response);
+			//$('#playlist').html(response);
 		}).fail(function (jqXHR, textStatus, errorThrown) {
 			console.log(jqXHR);
 			console.log(textStatus);
@@ -198,7 +200,7 @@ $(function () {
 		var filename = $(this).parent().find('span').data('fullpath');
 		$.ajax({
 			url: "php/delete.php",
-			type: "POST",
+			type: "post",
 			data: {filename: filename}
 		}).done(function (response) {
 			$('#playlist').html(response);
