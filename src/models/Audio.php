@@ -9,6 +9,7 @@ class Audio
 {
 	public $upload;
 	
+	protected $id;
 	protected $name;
 	protected $title;
 	protected $artist;
@@ -17,25 +18,26 @@ class Audio
 	protected $genre;
 	protected $cover_url;
 
-
-	const AUDIODATA = __DIR__ . '/../../data/data.txt';
+	const DATA_PATH = __DIR__ . '/../../data/data.txt';
 	
-	public static function load()
+	public static function loadAll()
 	{
 		$audios = [];
-		$lines = file(self::AUDIODATA);
-
-		foreach ($lines as $line)
+		$line = file(self::DATA_PATH);
+		$records = empty($line) ? [] : json_decode($line[0], true);
+		
+		foreach ($records as $k => $record)
 		{
-			$data = json_decode($line);
+			$name = $record['name'];
 			
-			if (!empty(glob(BASE_DIR . '/data/music/'.$data->name.'.*')))
+			if (!empty(glob(BASE_DIR . '/data/music/'. $name .'.*')))
 			{
 				$audio = new Audio();
-				$audio->setAttributes($data);
+				$audio->id = $k;
+				$audio->setAttributes($record);
 				
-				if (glob(BASE_DIR . '/data/images/covers/' . $data->name . '{.jpg, .png}', GLOB_BRACE))
-					$audio->setCoverUrl($data->name);
+				if (glob(BASE_DIR . '/data/images/covers/' . $name . '{.jpg, .png}', GLOB_BRACE))
+					$audio->setCoverUrl($name);
 								
 				$audios[] = $audio;
 			}
@@ -44,12 +46,28 @@ class Audio
 		return $audios;
 	}
 	
+	public static function load($id)
+	{
+		$audios = Audio::loadAll();
+		
+		foreach ($audios as $m)
+		{
+			if ($m->id == $id)
+			{
+				$audio = $m;
+				break;
+			}
+		}
+		
+		return $audio;
+	}
+	
 	protected function setAttributes($data)
 	{
 		foreach ($this as $attribute => $value)
 		{
-			if (isset($data->$attribute))
-				$this->$attribute = $data->$attribute;
+			if (isset($data[$attribute]))
+				$this->$attribute = $data[$attribute];
 		}
 	}
 	
@@ -57,7 +75,9 @@ class Audio
 	{
 		$audio_info = self::getInfo($this->upload->getPathname());
 		$name = str_replace('.'.$this->upload->getClientOriginalExtension(), '', $this->upload->getClientOriginalName());
-
+		
+		$id = time();
+		
 		$data = [
 			'name' => $name,
 		];
@@ -73,12 +93,33 @@ class Audio
 		
 		foreach ($defaults as $k => $default)
 			$data[$k] = !empty($audio_info[$k]) ? $audio_info[$k] : $default;
-				
-		file_put_contents(self::AUDIODATA, json_encode($data) . PHP_EOL, FILE_APPEND);
+		
+		$line = file(self::DATA_PATH);
+		$records = empty($line) ? [] : json_decode($line[0], true);
+		$records[$id] = $data;
+		
+		file_put_contents(self::DATA_PATH, json_encode($records));
 		
 		$file_dir = dirname(__DIR__, 2) . '/data/music/';
 		
 		$this->upload->move($file_dir, $this->upload->getClientOriginalName());
+	}
+	
+	public static function delete($id)
+	{
+		$line = file(self::DATA_PATH);
+		$records = empty($line) ? [] : json_decode($line[0], true);
+
+		foreach ($records as $k => $record)
+		{
+			if ($k == $id)
+			{
+				unset($records[$k]);
+				break;
+			}
+		}
+		
+		file_put_contents(self::DATA_PATH, json_encode($records));
 	}
 	
 	protected function beautifyTitle($title)
@@ -97,6 +138,11 @@ class Audio
 		$file_info = empty($file_info_total['id3v1']) ? [] : $file_info_total['id3v1'];
 		
 		return $file_info;
+	}
+	
+	public function getId()
+	{
+		return $this->id;
 	}
 	
 	public function getName()
@@ -148,5 +194,6 @@ class Audio
 	{
 		return BASE_URL . '/data/music/' . $this->name . '.mp3';
 	}
-		
+	
+	
 }

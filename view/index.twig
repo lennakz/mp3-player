@@ -50,19 +50,9 @@
 							<img src="icons/btn-volume.png" alt="">
 							<input id="volume-slider" type="range" min="0" max="10" value="4">
 						</form>
-						<ul id="playlist" class="body-playlist body-section">
-							{% for k, audio in audios %}
-							<li {% if k == 0 %}class="active"{% endif %}>
-								<span 
-									data-song="{{audio.getAudioUrl()}}" 
-									data-cover="{{audio.getCoverUrl()}}"
-									data-album="{{audio.getAlbum()}}"
-									data-fullpath="{{audio.getAudioUrl()}}"
-									data-artist="{{audio.getArtist()}}">{{audio.getTitle()}}</span>
-								<button id="delete">X</button>
-							</li>
-							{% endfor %}
-						</ul>
+						<div id="playlist">
+							{% include 'partials/audio_list.twig' with audios %}
+						</div>
 						<br>
 						{{ form_start(form) }}
 						{{ form_row(form.upload) }}

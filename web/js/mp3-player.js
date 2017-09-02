@@ -175,17 +175,14 @@ $(function () {
 		if (window.FormData) {
 			formdata = new FormData($form[0]);
 		}
-		//console.log($form);
 		$.ajax({
-			url: "ajax-upload",
 			type: "post",
 			data: formdata ? formdata : $form.serialize(),
 			contentType: false,
 			cache: false,
 			processData: false
 		}).done(function (response) {
-			console.log(response);
-			//$('#playlist').html(response);
+			$('#playlist').html(response);
 		}).fail(function (jqXHR, textStatus, errorThrown) {
 			console.log(jqXHR);
 			console.log(textStatus);
@@ -197,11 +194,11 @@ $(function () {
 
 	// Ajax call to delete file
 	$('body').on('click', '#delete', function () {
-		var filename = $(this).parent().find('span').data('fullpath');
+		var id = $(this).parent().find('span').data('id');
 		$.ajax({
-			url: "php/delete.php",
+			url: "delete",
 			type: "post",
-			data: {filename: filename}
+			data: {id: id}
 		}).done(function (response) {
 			$('#playlist').html(response);
 		});

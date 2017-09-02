@@ -1,0 +1,13 @@
+<ul class="body-playlist body-section">
+	{% for k, audio in audios %}
+	<li {% if k == 0 %}class="active"{% endif %}>
+		<span 
+			data-song="{{audio.getAudioUrl()}}" 
+			data-cover="{{audio.getCoverUrl()}}"
+			data-album="{{audio.getAlbum()}}"
+			data-id="{{audio.getId()}}"
+			data-artist="{{audio.getArtist()}}">{{audio.getTitle()}}</span>
+		<button id="delete">X</button>
+	</li>
+	{% endfor %}
+</ul>

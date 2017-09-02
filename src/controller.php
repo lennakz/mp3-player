@@ -11,7 +11,7 @@ require 'models/Audio.php';
 
 $app->match('/', function (Request $request) use ($app)
 {
-	$audios = Audio::load();
+	$audios = Audio::loadAll();
 	
 	$form = $app['form.factory']->createBuilder(FormType::class, null, ['attr' => ['id' => 'form']])
 		->add('upload', FileType::class, ['label' => 'Upload your music', 'multiple' => true])
@@ -30,7 +30,10 @@ $app->match('/', function (Request $request) use ($app)
 			$audio->upload = $a;
 			$audio->save();
 		}
-		return $app->redirect('/mp3-player/web/index.php');
+		
+		$audios = Audio::loadAll();
+		
+		return new Response($app['twig']->render('partials/audio_list.twig', ['audios' => $audios]));
 	}
 	
 	return $app['twig']->render('index.twig', [
@@ -39,8 +42,12 @@ $app->match('/', function (Request $request) use ($app)
 	]);
 });
 
-$app->match('/ajax-upload', function()
+$app->match('/delete', function (Request $request) use ($app)
 {
-	d($_FILES);
-	return '';
+	$id = $request->request->get('id');
+	Audio::delete($id);
+		
+	$audios = Audio::loadAll();
+	
+	return new Response($app['twig']->render('partials/audio_list.twig', ['audios' => $audios]));	
 });

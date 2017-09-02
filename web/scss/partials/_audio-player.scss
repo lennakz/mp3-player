@@ -58,6 +58,7 @@
   }
 }
 
+
 .audio-player-body {
   padding: $spacing-medium;
   background-color: $white;
@@ -68,6 +69,7 @@
   };
   .body-section + .body-section {
     margin-top: $spacing-large;
+	margin-bottom: $spacing-large;
   }
   .body-btns {
     .btn {
@@ -105,6 +107,8 @@
     background-color: $color-primary-l-30;
     box-shadow: $inset-box-shadow;
     li {
+	  text-align: left;
+	  position: relative;	
       padding: $spacing-x-small $spacing-small;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -121,6 +125,10 @@
       + li {
         border-top: 1px solid $gray-10;
       }
+	  #delete {
+		position: absolute;
+		right: 5px;
+	  }
     }
   }
 }
